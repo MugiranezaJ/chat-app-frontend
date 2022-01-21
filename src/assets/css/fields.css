@@ -1,0 +1,51 @@
+.control {
+    /* background-color: blanchedalmond; */
+    margin: 5px 0;
+    padding: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+/* .field {
+    background-color: blue;
+} */
+.input {
+    background-color:cornsilk;
+    width: 100%;
+    margin-top: 7px;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+}
+.control span {
+    color: red;
+}
+
+.button {
+    width: 100%;
+    padding: 10px;
+    background-color: beige;
+    border: none;
+    border-radius: 5px;
+<<<<<<< HEAD
+    font-family: 'Poppins';
+}
+button:active{
+    border: solid 1px black;
+}
+
+@media screen and (max-width: 800px) {
+    .control {
+        margin-top: 12px;
+        /* padding: 13px; */
+        font-size: 25px;
+    }
+    .input {
+        padding: 13px;
+    }
+=======
+}
+button:active{
+    border: solid 1px black;
+>>>>>>> da585dfa749d31b236cd6b129e2ca5d8e8f6675f
+}

@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(to right, #FCF9FF 50%, #FCF9FF 50%, #FFFFFF 50%, #FFFFFF 50%);
+    width: 100%;
+    font-family: 'Poppins';
+    font-size: 15px;
+<<<<<<< HEAD
+    height: 100%;
+    padding: 100px 0;
+    font-family: 'Poppins';
+    overflow: auto;
+=======
+    height: 100vh;
+    padding: 100px 0;
+    font-family: 'Poppins';
+    overflow: hidden;
+>>>>>>> da585dfa749d31b236cd6b129e2ca5d8e8f6675f
+    box-sizing: border-box;
+}
+
+.login-box {
+    margin: auto;
+    width: 512px;
+<<<<<<< HEAD
+    /* width: 60%; */
+    position: relative;
+=======
+>>>>>>> da585dfa749d31b236cd6b129e2ca5d8e8f6675f
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 3px 24px #0000000F;
+    box-sizing: border-box;
+}
+<<<<<<< HEAD
+
+.app-title {
+    position: absolute; 
+    top: -40px;
+    left: 0;
+    right: 0;
+    color: rosybrown;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 23px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .login-box {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container{
+        height: unset;
+    }
+
+    /* .login-box {
+        margin: 10px auto;
+    } */
+}
+=======
+>>>>>>> da585dfa749d31b236cd6b129e2ca5d8e8f6675f
