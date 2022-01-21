@@ -23,9 +23,14 @@ function Login(props){
     return (
         
         <div className="container">
+<<<<<<< HEAD
             
             <div className='login-box'>
                 <div className='app-title'>MeChat</div>
+=======
+            <div style={{margin: '0 auto', fontSize: '23px'}}>MeChat</div>
+            <div className='login-box'>
+>>>>>>> da585dfa749d31b236cd6b129e2ca5d8e8f6675f
                 <div style={{fontSize: 20}}>
                     Login
                 </div>
