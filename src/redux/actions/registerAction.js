@@ -7,7 +7,7 @@ export const registerAction = (userCredentials) => dispatch => {
     dispatch({ type: REGISTER_LOADING });
     return Axios.post(`/register`, userCredentials)
     .then((res) => {
-        localStorage.setItem('mechat_access_token',res.data.token);
+        // localStorage.setItem('mechat_access_token',res.data.token);
         dispatch({
             type: USER_REGISTER
         })

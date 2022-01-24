@@ -19,7 +19,7 @@ function Login(props){
     const handleLogin = values => {
         props.onLogin(values)
     };
-    console.log(props)
+    // console.log(props)
     return (
         
         <div className="container">

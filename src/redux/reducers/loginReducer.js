@@ -31,11 +31,6 @@ export const loginReducer = (state = initialState, action) =>{
                 loading: true,
                 snackBarMessage: false
             }
-        case CLOSE_SNACKBAR:
-            return {
-                ...state,
-                snackBarMessage: false
-            }
         default:
             return state;
     }
