@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 function Register(props){  
     if(props.register.success){
-        window.location.href = '/home';
+        window.location.href = '/login';
     }
     const handleRegister = values => {
         props.onRegister(values)

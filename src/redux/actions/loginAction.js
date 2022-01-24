@@ -9,7 +9,8 @@ export const loginAction = (userCredentials) => dispatch => {
     .then((res) => {
         localStorage.setItem('mechat_access_token',res.data.token);
         dispatch({
-            type: USER_LOGIN
+            type: USER_LOGIN,
+            user: res.data.user
         })
     })
     .catch(err=>{
