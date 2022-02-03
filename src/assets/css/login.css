@@ -3,7 +3,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background: linear-gradient(to right, #FCF9FF 50%, #FCF9FF 50%, #FFFFFF 50%, #FFFFFF 50%);
+    /* background: linear-gradient(to right, #FCF9FF 50%, #FCF9FF 50%, #FFFFFF 50%, #FFFFFF 50%); */
+    background: linear-gradient(to right, #171A21 50%, #FCF9FF 50%, #FFFFFF 50%, #16181f 50%);
     width: 100%;
     font-family: 'Poppins';
     font-size: 15px;
@@ -19,7 +20,9 @@
     width: 512px;
     /* width: 60%; */
     position: relative;
-    background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
+    background-color: #1b2838;
+    color: #fff;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -34,7 +37,7 @@
     top: -40px;
     left: 0;
     right: 0;
-    color: rosybrown;
+    color: #409092;
     text-align: center;
     margin: 0 auto;
     font-size: 23px;
@@ -42,6 +45,10 @@
 
 .text-center {
     text-align: center;
+}
+a{
+    text-decoration: none;
+    color: #66c0f4;
 }
 
 @media screen and (max-width: 600px) {

@@ -24,7 +24,9 @@
 .button {
     width: 100%;
     padding: 10px;
-    background-color: beige;
+    /* background-color: beige; */
+    background-color: #2a475e;
+    color: #fff;
     border: none;
     border-radius: 5px;
     font-family: 'Poppins';
