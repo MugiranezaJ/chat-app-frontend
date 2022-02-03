@@ -33,7 +33,7 @@ function Login(props){
                 <div>
                     {props.login.error ? (
                         <span style={{color: 'red'}}>{props.login.error}</span>) : 
-                        <span style={{color: 'green'}}>{token ? "Redirectig...": null}</span>
+                        <span style={{color: '#0caa41'}}>{token ? "Redirectig...": null}</span>
                     }
                 </div>
             </div>
