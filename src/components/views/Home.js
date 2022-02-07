@@ -3,36 +3,26 @@ import { SideBar } from './Layout/SideBar'
 import '../../assets/css/home.css'
 import { getAllUsers } from '../../redux/actions/usersAction'
 import { connect } from 'react-redux';
-import { MessageBox } from '../MessageBox'
+import MessageBox from '../MessageBox'
 import { socket } from '../../services/socket'
 import { MessageInput } from './Layout/MessageInput';
+import { getIOChats, setActiveUser, setMessageCount } from '../../redux/actions/chatsAction';
 
 function Home(props){
     const [serverState, setServerState] = React.useState({message:'fetching'})  
     const [users, setUsers] = React.useState([])
-    const [connected, setConnected] = React.useState('')
-    const [activeUser, updateActiveUser] = React.useState(null)
-    const [chats, setChats] = React.useState([])
-    // const chatsRef = React.useRef()
-    // chatsRef.current = chats
+    const { active_user } = props.io_chats
 
-    console.log(props)
     React.useEffect(() => {
       props.onGetUsers();
       initSocket()
       regNewUser()
     },[props.userinfo.username]);
-
-    React.useEffect(() => {
-      socket.on('NEW_USER', (data) => {
-        setChatObject(data.newUsers)
-      })
-    },[])
+    // [props.userinfo.username]
 
     const initSocket = () => {
         socket.on('connect', () => {
           console.log( 'Connected: ' + socket.id)
-          setConnected(socket.id)
         })
         socket.on('disconnect',()=>setServerState('server disconnected'))
         socket.on('connect_error', ()=>{
@@ -43,11 +33,10 @@ function Home(props){
           setUsers(data.newUsers)
         })
         socket.on('time', (data)=>setServerState(data))
-        
-        // socket.on("NEW_USER", (data) => {
-        //   console.log('New User')
-        //   // setUsers( data.newUsers )
-        // })
+        socket.on('NEW_USER', (data) => {
+          setUsers(data.newUsers)
+          props.onGetChats(data.newUsers)
+        })
     }
     const regNewUser = () => {
         const {username, name, role, profile_picture} = props.userinfo
@@ -62,31 +51,16 @@ function Home(props){
     }
 
     const setActiveUser = (e, user) => {
-      updateActiveUser(user)
-    }
+      props.onSetActiveUser(user)
+      props.onResetMessageCount(0, user)
 
-    const setChatObject = (newUsers) => {
-        let currentChats = [ ...chats]
-        let previousChats = chats.map( chat => chat.name )
-        Object.keys( newUsers ).map( async (newUser) => {
-          if(!previousChats.includes( newUser )){
-            currentChats.push({
-                name: newUser,
-                role: newUsers[newUser].role,
-                messages: [],
-                msgCount: 0,
-            })
-          }
-          return null
-      }) 
-      setUsers( newUsers )
-      setChats(currentChats)
     }
     
     
   const sendMessage = msg => {
-      let receiver = users[ activeUser ]
-      socket.emit( 'MESSAGE_SEND', { receiver, msg })
+      let receiver = users[ active_user ]
+      let sender = props.userinfo;
+      socket.emit( 'MESSAGE_SEND', { sender, receiver, msg })
   }
 
     return (
@@ -95,25 +69,21 @@ function Home(props){
                 <SideBar 
                   getUser={props.userinfo} 
                   onlineUsers={users} 
-                  chats = {chats}
+                  io_chats={props.io_chats}
                   logout={logout} 
                   setActiveUser ={setActiveUser}
-                  activeUser ={activeUser}
+                  activeUser ={active_user}
                 />
             </div>
             <div className="chat-container">
-                {/* {JSON.stringify(users)}
-                {JSON.stringify(connected)}
-                {JSON.stringify(serverState)} */}
+                {/*{JSON.stringify(serverState)} */}
                 
                 <MessageBox
                 getUser={props.userinfo}
-                activeUser={activeUser}
-                chats={chats}
-                setChats={setChats}
+                activeUser={active_user}
                 users={users}
                 socket={socket} />
-                {activeUser ? 
+                {active_user ? 
                 (<MessageInput
                   sendMessage={sendMessage} 
                 />)
@@ -127,12 +97,22 @@ const mapDispatchToProps = (dispatch) => {
     return {
       onGetUsers: () => {
         dispatch(getAllUsers())
+      },
+      onGetChats: (newUsers) => {
+        dispatch(getIOChats(newUsers))
+      },
+      onSetActiveUser: (user) => {
+        dispatch(setActiveUser(user))
+      },
+      onResetMessageCount: (count, channel) => {
+        dispatch(setMessageCount(count, channel))
       }
     }
   }
 
-const mapStateToProps = ({ userinfo }) =>({
-    userinfo
+const mapStateToProps = ({ userinfo, io_chats}) =>({
+    userinfo,
+    io_chats,
 });
 
 export {Home};

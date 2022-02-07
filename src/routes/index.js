@@ -1,10 +1,10 @@
-import react from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import Home from '../components/views/Home'
 import Login from '../components/views/Login'
 import Register from '../components/views/Register'
-
+import PrivateRoute from './PrivateRoute'
 const history = createBrowserHistory()
 export default function appRoutes(){
     return (
@@ -12,7 +12,10 @@ export default function appRoutes(){
             <Routes>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>} />
-                <Route exact path='/home' element={<Home/>} />
+                {/* <ProtectedRoute exact path='/home' component={Home} /> */}
+                <Route exact path='/home' element={<PrivateRoute/>}>
+                    <Route exact path='/home' element={<Home/>}/>
+                </Route>
             </Routes>
         </BrowserRouter>
     )

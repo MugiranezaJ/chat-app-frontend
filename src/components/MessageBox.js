@@ -1,8 +1,11 @@
 import React from 'react'
 import { Header } from './views/Layout/Header'
 import '../assets/css/chat-box.css'
+import { getMessages } from '../redux/actions/messagesAction'
+import { connect } from 'react-redux'
+import { getPIoMessage, setMessageCount } from '../redux/actions/chatsAction'
 
-export function MessageBox(props){
+function MessageBox(props){
     const messagesEndRef = React.useRef(null)
 
     const scrollToBottom = () => {
@@ -10,38 +13,28 @@ export function MessageBox(props){
     }
 
     React.useEffect(()=>{
-        props.socket.on('MESSAGE_SEND', addMessage )
-    },[props.chats])
-    
+        props.socket.on('MESSAGE_SEND', props.onAddMessage)
+    },[props.socket, props.onAddMessage])
+    // check this when it act weird
 
-    const addMessage = ({ channel, message, status }) => {
-        props.chats.map( chat => {
-          if( chat.name === channel ) {
-            chat.messages.push(message)
-            if( props.activeUser !== channel ) {
-                chat.msgCount ++
-            }
-          }
-          return null
-        })
-        // props.setChats(props.chats)
-    }
-    
-    const chat = props.chats  ? props.chats.filter(chat => chat.name == props.activeUser) : null
-    if(chat[0]) chat[0].msgCount = 0 
-    const user = props.users && chat[0] ? props.users[chat[0].name] : {}
-    const messages = chat[0] ? chat[0].messages.length : null
+    const { chats } = props.io_chats
+
+    const ioChat = chats ? chats.filter(chat => chat.name === props.activeUser) : null
+
+    const ioUser = props.users && ioChat[0] ? props.users[ioChat[0].name] : {}
+
+    const ioMessages = ioChat[0] ? ioChat[0].messages.length : null
     React.useEffect(()=>{
         scrollToBottom()
-    },[messages])
+    },[ioMessages])
     return (
         <div className='message-page'>
-            { props.activeUser ? <Header users = {user}/> : null }
+            { props.activeUser ? <Header users = {ioUser}/> : null }
             <div className='message-container'>
                 {
-                    chat[0]  ? 
-                    chat[0].messages.map(((msg, index) => {
-                        const leftOrRight = msg.sender == props.getUser.username
+                    ioChat[0]  ? 
+                    ioChat[0].messages.map(((msg, index) => {
+                        const leftOrRight = msg.sender === props.getUser.username
                         const msgTime = new Date(msg.time)
                         return (
                         <div key={index} 
@@ -54,14 +47,12 @@ export function MessageBox(props){
                                     className='message'
                                     style={{
                                     float: leftOrRight ? 'right' : 'left', 
-                                    // textAlign: leftOrRight? 'right' : 'left', 
                                     textAlign: 'left',
                                     borderRadius: '10px',
                                     borderBottomLeftRadius: leftOrRight ? '10px' : '0px',
                                     borderBottomRightRadius: leftOrRight ? '0px' : '10px'
                                     }}
                                 >
-                                    {/* sender: {msg.sender} */}
                                     <p>{msg.message}</p>
                                     <p style={{textAlign: 'right', opacity: 0.5}}>{msgTime.getHours() + ':' + msgTime.getMinutes()}</p>
                                     </div>
@@ -75,3 +66,26 @@ export function MessageBox(props){
         </div>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onGetMessages: (sender, receiver) => {
+        dispatch(getMessages(sender, receiver))
+      },
+      onAddMessage: ({channel, message, status}) => {
+          dispatch(getPIoMessage({ channel, message, status }))
+      },
+      onResetMessageCount: (count, channel) => {
+        dispatch(setMessageCount(count, channel))
+      }
+    }
+  }
+
+const mapStateToProps = ({ messages, io_messages, io_chats }) =>({
+    messages,
+    io_messages,
+    io_chats
+});
+
+export {MessageBox};
+export default connect(mapStateToProps, mapDispatchToProps )(MessageBox);
